@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: IPD API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      responses:
+        "200":
+  /environments:
+    get:
+      summary: Get all environments 
+      responses:
+        "200"
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    environment:
+                      type: string
+                    stack:
+                      type: string
+                    config:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    status:
+                      type: string
+                    note:
+                      type: string
+    post:
+      summary: Create environment 
+      responses:
+        "200"
+          description: "OK"
+        "400"
+          description: "Bad Request"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  environment: test
+                  stack: PetApp
+                  config:
+                    branch: develop
+              properties:
+                environment:
+                  type: string
+                  minLength: 1
+                stack:
+                  type: string
+                  minLength: 1
+                config:
+                  type: object
+                  additionalProperties:
+                    type: string
+              required:
+                - environment
+                - stack
+                - config
+  /environments/{name}: 
+    delete:
+      summary: Delete environment 
+      responses:
+        "202"
+          description: Accepted 
+        "404"
+          description: "Bad Request"
+
+
+
